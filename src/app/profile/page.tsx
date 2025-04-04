@@ -5,13 +5,15 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useGithubStore } from "@/context/store";
-import { Profile } from "@/components/profile";
-import { fetchUserRepos } from "@/lib/api";
+import { Profile } from "@/components/Profile";
+import { fetchUserRepos, fetchUserStarred } from "@/lib/api";
 import { toast } from "sonner";
-import { GithubRepo } from "@/types/githubAPITypes";
+import { GithubRepo, GithubStarred } from "@/types/githubAPITypes";
+import Repos from "@/components/Repos";
+import Header from "@/components/header";
 
 export default function ProfilePage() {
-  const { profile, username, setRepos } = useGithubStore();
+  const { profile, username, setRepos, setStarred } = useGithubStore();
   const router = useRouter();
 
   const queryClient = useQueryClient();
@@ -22,6 +24,12 @@ export default function ProfilePage() {
     enabled: !!profile,
   });
 
+  const { isLoading: isLoadingStarred } = useQuery({
+    queryKey: ["starred", username],
+    queryFn: () => fetchUserStarred(username),
+    enabled: !!profile,
+  });
+
   useEffect(() => {
     if (isLoadingRepos === false) {
       const data = queryClient.getQueryData(["repos", username]);
@@ -29,12 +37,19 @@ export default function ProfilePage() {
         setRepos(data as GithubRepo[]);
       }
     }
-  }, [isLoadingRepos, username, setRepos, useQueryClient]);
+
+    if (isLoadingStarred === false) {
+      const data = queryClient.getQueryData(["starred", username]);
+      if (data) {
+        setStarred(data as GithubStarred[]);
+      }
+    }
+  }, [isLoadingRepos, isLoadingStarred, username, setRepos, setStarred, useQueryClient]);
 
   useEffect(() => {
     if (!profile) {
-      router.push("/");
       toast.error("Usuário não encontrado");
+      router.push("/");
     }
   }, [profile, router]);
 
@@ -43,8 +58,16 @@ export default function ProfilePage() {
   }
 
   return (
-    <main className="container mx-auto p-4">
-      <Profile />
-    </main>
+    <div className="flex flex-col gap-10 w-screen h-screen">
+      <Header />
+      <main className="pace-y-1.5 p-6 flex gap-16 w-full container mx-auto ">
+        <div>
+        <Profile />
+        </div>
+        <div>
+        <Repos />
+      </div>
+      </main>
+    </div>
   );
 }

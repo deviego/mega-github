@@ -13,6 +13,10 @@ export interface GithubProfile {
   email: string | null;
   bio: string | null;
   twitter_username: string | null;
+  status: {
+    emoji: string;
+    message: string;
+  } | null;
 }
 
 
@@ -40,6 +44,13 @@ export interface GithubRepo {
   open_issues: number;
   watchers: number;
   default_branch: string;
+  owner: {
+    login: string;
+    id: number;
+    node_id: string;
+    avatar_url: string;
+    url: string;
+  };
 }
 
 

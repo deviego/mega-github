@@ -1,19 +1,20 @@
-'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useGithubStore } from '@/context/store';
-import { toast } from 'sonner';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useGithubStore } from "@/context/store";
+import { toast } from "sonner";
 
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
 
 const searchSchema = z.object({
-  username: z.string().min(1, 'Nome de usuário é obrigatório')
+  username: z.string().min(1, "Nome de usuário é obrigatório"),
 });
 
 type SearchForm = z.infer<typeof searchSchema>;
@@ -26,32 +27,43 @@ export default function Home() {
   const form = useForm<SearchForm>({
     resolver: zodResolver(searchSchema),
     defaultValues: {
-      username: ''
-    }
+      username: "",
+    },
   });
 
   const handleSearch = async (data: SearchForm) => {
     setIsLoading(true);
-    
+
     try {
       setUsername(data.username);
       await fetchProfile();
       router.push(`/profile`);
     } catch (error) {
-      console.error('Error fetching profile:', error);
-      toast.error('Usuário não encontrado ou erro ao buscar perfil');
-    } finally {
+      console.error("Error fetching profile:", error);
+      toast("Usuário não encontrado ou erro ao buscar perfil");
       setIsLoading(false);
-    }
+    } 
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-background">
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-background w-screen">
       <div className="w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-8">GitHub Profile Finder</h1>
-        
+        <Image
+          src="/logo-magazord.png"
+          alt="Megazord logo"
+          width={500}
+          height={500}
+          className="mb-8"
+        />
+        <h1 className="text-3xl font-bold text-center mb-8">
+          GitHub Profile Finder
+        </h1>
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSearch)} className="w-full space-y-4">
+          <form
+            onSubmit={form.handleSubmit(handleSearch)}
+            className="w-full space-y-4"
+          >
             <FormField
               control={form.control}
               name="username"
@@ -59,13 +71,13 @@ export default function Home() {
                 <FormItem>
                   <FormControl>
                     <div className="flex gap-2">
-                      <Input 
-                        placeholder="Digite um usuário do GitHub..." 
-                        disabled={isLoading} 
-                        {...field} 
+                      <Input
+                        placeholder="Digite um usuário do GitHub..."
+                        disabled={isLoading}
+                        {...field}
                       />
                       <Button type="submit" disabled={isLoading}>
-                        {isLoading ? 'Buscando...' : 'Buscar'}
+                        {isLoading ? "Buscando..." : "Buscar"}
                       </Button>
                     </div>
                   </FormControl>
