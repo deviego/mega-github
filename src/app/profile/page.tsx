@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { GithubRepo, GithubStarred } from "@/types/githubAPITypes";
 import Repos from "@/components/Repos";
 import Header from "@/components/header";
-import { Profile } from "@/components/Profile";
+import { Profile } from "@/components/ProfileComponent";
 
 export default function ProfilePage() {
   const { profile, username, setRepos, setStarred } = useGithubStore();
