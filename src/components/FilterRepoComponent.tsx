@@ -35,18 +35,18 @@ export default function FilterRepoComponent({
   }, [searchText, type, language, onFilterChange]);
 
   return (
-    <div className="flex my-10 w-full gap-[104px]">
-      <div className="flex gap-2">
+    <div className="flex flex-col gap-4 my-4 md:my-10 lg:my-10 w-full lg:gap-[104px] md:gap-4 lg:flex-row ">
+      <div className="flex gap-2  order-2  lg:order-1">
         <Image src="/icons/search.svg" alt="search" width={20} height={20} />
         <Input
           type="text"
           placeholder="Search Here"
-          className="bg-transparent border-none border-b border-grayText focus:border-grayText rounded-none pb-1 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+          className="bg-transparent border-none border-b border-grayText focus:border-grayText rounded-none lg:pb-1 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
       </div>
-      <div className="flex gap-2 text-white">
+      <div className="flex gap-2 text-white order-2 md:order-1">
         <Select onValueChange={setType} value={type}>
           <SelectTrigger className="w-[180px] bg-gradient-to-r from-[#0056A6] to-[#0587FF] text-white [&_*]:text-white">
             <SelectValue placeholder="Type" className="text-white" />

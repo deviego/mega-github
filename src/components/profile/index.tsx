@@ -16,10 +16,10 @@ export function Profile() {
   }
 
   return (
-    <div className="flex flex-col w-80">
-      <CardHeader className="flex gap-6 items-center mb-8 p-0">
-        <div className="relative">
-          <Avatar className="h-36 w-36 rounded-full">
+    <div className="flex flex-col w-full">
+      <CardHeader className="flex gap-6 items-center mb-8 p-0 md:mb-10 md:gap-4 md:justify-center">
+        <div className="relative flex justify-center items-center w-full max-w-full md:max-w-[200px] lg:max-w-[251px]  md:flex md:justify-center md:items-center">
+          <Avatar className="h-24 w-24 md:h-24 md:w-24 lg:h-36 lg:w-36 rounded-full">
             <AvatarImage
               src={profile.avatar_url}
               alt={`${profile.login}'s avatar`}
@@ -36,17 +36,19 @@ export function Profile() {
           )}
         </div>
 
-        <div className="flex flex-col gap-2  items-center justify-center">
-          <h1 className="text-2xl font-bold">
+        <div className="flex flex-col gap-2  items-center justify-center lg:max-w-[400px]">
+          <h1 className="text-2xl font-bold text-center md:text-left md:text-xl">
             {profile.name || profile.login}
           </h1>
-          <p className="text-grayText">{profile.bio}</p>
+          <p className="text-grayText text-center md:text-left md:text-sm">
+            {profile.bio}
+          </p>
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4 text-blueAcendent">
+      <CardContent className="space-y-4 text-blueAcendent md:p-0">
         {profile.company && (
-          <div className="flex items-center gap-[10px] ">
+          <div className="flex items-center gap-[10px]  md:items-start">
             <Image
               src="/icons/carbon_enterprise.svg"
               alt={profile.company}

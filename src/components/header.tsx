@@ -3,10 +3,10 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <div className="flex items-start w-full bg-black">
+    <div className="lg:flex lg:items-start w-full bg-black invisible md:visible">
       <Link
         href="/"
-        className="flex items-center gap-2 w-full container mx-auto py-5 px-4"
+        className="flex items-center gap-2 w-full container mx-auto py-5 px-8 lg:py-5 lg:px-4"
       >
           <Image
             src="/icons/Github-logo.svg"

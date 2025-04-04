@@ -44,7 +44,14 @@ export default function ProfilePage() {
         setStarred(data as GithubStarred[]);
       }
     }
-  }, [isLoadingRepos, isLoadingStarred, username, setRepos, setStarred, useQueryClient]);
+  }, [
+    isLoadingRepos,
+    isLoadingStarred,
+    username,
+    setRepos,
+    setStarred,
+    useQueryClient,
+  ]);
 
   useEffect(() => {
     if (!profile) {
@@ -59,14 +66,17 @@ export default function ProfilePage() {
 
   return (
     <div className="flex flex-col gap-10 w-screen h-screen">
-      <Header />
-      <main className="pace-y-1.5 p-6 flex gap-16 w-full container mx-auto ">
-        <div>
-        <Profile />
-        </div>
-        <div>
-        <Repos />
+      <div className="hidden md:block">
+        <Header />
       </div>
+
+      <main className="p-4 md:p-6 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-16 w-full container mx-auto lg:space-x-6">
+        <div className="w-full md:w-1/3 lg:w-auto">
+          <Profile />
+        </div>
+        <div className="w-full md:w-2/3">
+          <Repos />
+        </div>
       </main>
     </div>
   );
